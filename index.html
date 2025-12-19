@@ -1,81 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ADAM OFC</title>
+
   <style>
-    /* General Styles */
     body {
       font-family: 'Courier New', Courier, monospace;
       margin: 0;
-      padding: 0;
-      background-color: #000;
+      background: #000;
       color: #ff3333;
       overflow-x: hidden;
     }
 
+    /* Animated Background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(0,255,0,0.08), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(255,0,0,0.08), transparent 40%);
+      animation: pulseBg 6s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    @keyframes pulseBg {
+      0%,100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
     header {
-      position: relative;
       text-align: center;
-      padding: 2.5rem 0;
+      padding: 3rem 1rem;
       background: radial-gradient(circle, #330000, #000);
       color: #00ff00;
       animation: glitch 2s infinite;
-      overflow: hidden;
-    }
-
-    header::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(
-        0deg,
-        rgba(0, 255, 0, 0.1),
-        rgba(0, 255, 0, 0.1) 1px,
-        transparent 2px
-      );
-      pointer-events: none;
-      animation: matrixRain 10s linear infinite;
     }
 
     header h1 {
       font-size: 3rem;
-      text-transform: uppercase;
       margin: 0;
-      z-index: 1;
-      position: relative;
+      text-shadow: 0 0 15px #00ff00;
     }
 
     header p {
-      font-size: 1.2rem;
-      z-index: 1;
-      position: relative;
+      color: #ccc;
     }
 
     nav {
       display: flex;
       justify-content: center;
+      gap: 20px;
       background: #111;
-      padding: 0.8rem 0;
-      box-shadow: 0 2px 5px rgba(255, 50, 50, 0.5);
+      padding: 1rem;
+      box-shadow: 0 0 10px rgba(0,255,0,0.3);
     }
 
     nav a {
       color: #00ff00;
       text-decoration: none;
-      margin: 0 15px;
       font-weight: bold;
-      text-transform: uppercase;
-      transition: color 0.3s ease-in-out;
+      transition: all 0.3s ease;
     }
 
     nav a:hover {
       color: #fff;
+      text-shadow: 0 0 10px #00ff00;
     }
 
     .container {
@@ -85,18 +77,16 @@
     }
 
     section {
-      margin-bottom: 2rem;
       background: #111;
       padding: 1.5rem;
+      margin-bottom: 2rem;
       border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(255, 50, 50, 0.3);
-      animation: fadeIn 2s ease-in-out;
+      box-shadow: 0 0 15px rgba(255,0,0,0.3);
+      animation: fadeIn 1.5s ease;
     }
 
     h2 {
-      font-size: 2rem;
       color: #00ff00;
-      margin-bottom: 1rem;
     }
 
     .projects {
@@ -106,187 +96,68 @@
     }
 
     .project-card {
-      background: #222;
+      background: #1a1a1a;
       border: 1px solid #00ff00;
       padding: 1rem;
-      text-align: center;
       border-radius: 8px;
-      transition: transform 0.3s, box-shadow 0.3s;
+      text-align: center;
       cursor: pointer;
+      transition: all 0.3s ease;
     }
 
     .project-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 6px 15px rgba(0, 255, 0, 0.5);
-    }
-
-    .project-card h3 {
-      color: #fff;
+      transform: translateY(-8px);
+      box-shadow: 0 0 20px rgba(0,255,0,0.6);
     }
 
     footer {
       text-align: center;
+      padding: 1rem;
       background: #111;
       color: #00ff00;
-      padding: 1rem 0;
-    }
-
-    footer a {
-      color: #00ff00;
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    /* Animated Background */
-    .animated-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      background:
-        radial-gradient(circle at 20% 80%, rgba(0, 102, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(0, 150, 255, 0.05) 0%, transparent 50%);
-      animation: bgPulse 8s ease-in-out infinite;
-    }
-
-    @keyframes bgPulse {
-      0%,
-      100% {
-        opacity: 0.8;
-        transform: scale(1);
-      }
-
-      50% {
-        opacity: 1;
-        transform: scale(1.05);
-      }
-    }
-
-    /* Floating Orbs */
-    .floating-orb {
-      position: absolute;
-      border-radius: 50%;
-      background: linear-gradient(135deg, rgba(0, 102, 255, 0.2), rgba(0, 212, 255, 0.1));
-      animation: floatOrb 15s ease-in-out infinite;
-      backdrop-filter: blur(10px);
-      pointer-events: none;
-    }
-
-    .orb1 {
-      width: 200px;
-      height: 200px;
-      top: 10%;
-      left: 10%;
-      animation-delay: 0s;
-    }
-
-    .orb2 {
-      width: 150px;
-      height: 150px;
-      top: 60%;
-      right: 15%;
-      animation-delay: -5s;
-    }
-
-    .orb3 {
-      width: 100px;
-      height: 100px;
-      bottom: 20%;
-      left: 20%;
-      animation-delay: -10s;
-    }
-
-    @keyframes floatOrb {
-      0%,
-      100% {
-        transform: translate(0, 0) scale(1);
-      }
-
-      25% {
-        transform: translate(30px, -30px) scale(1.1);
-      }
-
-      50% {
-        transform: translate(-20px, 20px) scale(0.9);
-      }
-
-      75% {
-        transform: translate(20px, 30px) scale(1.05);
-      }
-    }
-
-    /* Animations */
-    @keyframes glitch {
-      0%,
-      100% {
-        text-shadow: 0 0 5px #ff3333, 0 0 10px #ff3333, 0 0 20px #00ff00, 0 0 40px #00ff00;
-      }
-
-      50% {
-        text-shadow: 0 0 5px #fff, 0 0 10px #ff3333, 0 0 20px #00ff00, 0 0 30px #00ff00;
-      }
-    }
-
-    @keyframes fadeIn {
-      0% {
-        opacity: 0;
-      }
-
-      100% {
-        opacity: 1;
-      }
-    }
-
-    @keyframes matrixRain {
-      0% {
-        transform: translateY(-100%);
-      }
-
-      100% {
-        transform: translateY(100%);
-      }
     }
 
     button {
-      font-family: 'Courier New', monospace;
       background: #111;
       color: #00ff00;
       border: 1px solid #00ff00;
       padding: 10px 20px;
-      font-size: 1rem;
       cursor: pointer;
-      transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+      transition: all 0.3s ease;
     }
 
     button:hover {
       background: #00ff00;
       color: #000;
-      transform: scale(1.1);
+      box-shadow: 0 0 15px #00ff00;
+    }
+
+    @keyframes glitch {
+      0%,100% { text-shadow: 0 0 10px #00ff00; }
+      50% { text-shadow: 0 0 20px #ff3333; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 
 <body>
-  <!-- Animated Background & Orbs -->
-  <div class="animated-bg"></div>
-  <div class="floating-orb orb1"></div>
-  <div class="floating-orb orb2"></div>
-  <div class="floating-orb orb3"></div>
 
-  <!-- Click Sound -->
+  <!-- AUDIO -->
   <audio id="clickSound" preload="auto">
-    <source src="./assets/Click.mp3" type="audio/mpeg" />
+    <source src="./assets/Click.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="music" preload="auto" loop>
+    <source src="./assets/music.mp3" type="audio/mpeg">
   </audio>
 
   <header>
     <h1>DARK ADAM</h1>
-    <p>Self-Learning Developer | Sri Lanka | Passion for Programing</p>
+    <p>Self-Learning Developer | Sri Lanka | Passion for Programming</p>
   </header>
 
   <nav>
@@ -296,64 +167,51 @@
   </nav>
 
   <div class="container">
+
     <section id="projects">
       <h2>Projects</h2>
       <div class="projects">
-        <div class="project-card" onclick="playClick()">
-          <h3>Coming Soon!</h3>
-          <p>PROJECT-01</p>
-        </div>
-        <div class="project-card" onclick="playClick()">
-          <h3>Coming Soon!</h3>
-          <p>PROJECT-02</p>
-        </div>
-        <div class="project-card" onclick="playClick()">
-          <h3>Coming Soon!</h3>
-          <p>PROJECT-03</p>
-        </div>
+        <div class="project-card" onclick="playClick()">PROJECT-01</div>
+        <div class="project-card" onclick="playClick()">PROJECT-02</div>
+        <div class="project-card" onclick="playClick()">PROJECT-03</div>
       </div>
     </section>
 
     <section id="about">
       <h2>About</h2>
-      <p>I’m Disindu Damsandu, a self-taught developer from Sri Lanka, driven by curiosity and a deep interest in coding. My work focuses on creating efficient tools for cybersecurity and software development.</p>
+      <p>I’m Disindu Damsandu, a self-taught developer from Sri Lanka focused on cybersecurity and software development.</p>
     </section>
 
     <section id="contact">
       <h2>Contact</h2>
-      <p>Let’s collaborate or connect to exchange ideas!</p>
-      <a href="mailto:disindudamsandu@gmail.com"><button>Contact me</button></a>
+      <a href="mailto:disindudamsandu@gmail.com">
+        <button onclick="playClick()">Contact Me</button>
+      </a>
     </section>
+
   </div>
 
   <footer>
-    <p>&copy; 2025 DARK ADAM. All rights reserved. Built for those who code in the shadows. Powered by Disindu</p>
+    &copy; 2025 DARK ADAM — Built in the shadows
   </footer>
 
   <script>
     const clickSound = document.getElementById("clickSound");
+    const music = document.getElementById("music");
+    let musicStarted = false;
+
     function playClick() {
       clickSound.currentTime = 0;
       clickSound.play();
     }
 
-  <audio id="music" preload="auto">
-    <source src="./assets/music.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-
-  <script>
-    const audio = document.getElementById("music");
-    let played = false;
-
     document.addEventListener("click", () => {
-      if (!played) {
-        audio.play();
-        played = true;
+      if (!musicStarted) {
+        music.play().catch(() => {});
+        musicStarted = true;
       }
     });
   </script>
+
 </body>
-
-    </html>
-
+</html>
