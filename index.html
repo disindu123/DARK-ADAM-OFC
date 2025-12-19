@@ -6,12 +6,22 @@
   <title>ADAM OFC</title>
 
   <style>
+    * {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
     body {
       font-family: 'Courier New', Courier, monospace;
       margin: 0;
       background: #000;
       color: #ff3333;
       overflow-x: hidden;
+      animation: pageEnter 1s ease;
+    }
+
+    @keyframes pageEnter {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     /* Animated Background */
@@ -23,12 +33,34 @@
         radial-gradient(circle at 20% 30%, rgba(0,255,0,0.08), transparent 40%),
         radial-gradient(circle at 80% 70%, rgba(255,0,0,0.08), transparent 40%);
       animation: pulseBg 6s ease-in-out infinite;
-      z-index: -1;
+      z-index: -2;
     }
 
     @keyframes pulseBg {
       0%,100% { opacity: 0.6; }
       50% { opacity: 1; }
+    }
+
+    /* Scanlines */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0,255,0,0.04),
+        rgba(0,255,0,0.04) 1px,
+        transparent 2px,
+        transparent 4px
+      );
+      pointer-events: none;
+      animation: scanMove 8s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes scanMove {
+      from { background-position-y: 0; }
+      to { background-position-y: 100%; }
     }
 
     header {
@@ -37,12 +69,23 @@
       background: radial-gradient(circle, #330000, #000);
       color: #00ff00;
       animation: glitch 2s infinite;
+      letter-spacing: 3px;
     }
 
     header h1 {
       font-size: 3rem;
       margin: 0;
       text-shadow: 0 0 15px #00ff00;
+    }
+
+    header h1::after {
+      content: "_";
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%,50% { opacity: 1; }
+      51%,100% { opacity: 0; }
     }
 
     header p {
@@ -62,7 +105,6 @@
       color: #00ff00;
       text-decoration: none;
       font-weight: bold;
-      transition: all 0.3s ease;
     }
 
     nav a:hover {
@@ -82,7 +124,22 @@
       margin-bottom: 2rem;
       border-radius: 8px;
       box-shadow: 0 0 15px rgba(255,0,0,0.3);
-      animation: fadeIn 1.5s ease;
+      position: relative;
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      border: 1px solid rgba(0,255,0,0.2);
+      animation: neonPulse 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes neonPulse {
+      0%,100% { opacity: 0.3; }
+      50% { opacity: 0.8; }
     }
 
     h2 {
@@ -102,11 +159,18 @@
       border-radius: 8px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.3s ease;
+      animation: floatCard 6s ease-in-out infinite;
+    }
+
+    .project-card:nth-child(2) { animation-delay: -2s; }
+    .project-card:nth-child(3) { animation-delay: -4s; }
+
+    @keyframes floatCard {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
     }
 
     .project-card:hover {
-      transform: translateY(-8px);
       box-shadow: 0 0 20px rgba(0,255,0,0.6);
     }
 
@@ -123,7 +187,6 @@
       border: 1px solid #00ff00;
       padding: 10px 20px;
       cursor: pointer;
-      transition: all 0.3s ease;
     }
 
     button:hover {
@@ -137,9 +200,31 @@
       50% { text-shadow: 0 0 20px #ff3333; }
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* Scroll Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 1s ease;
+    }
+
+    /* Mobile optimization */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      nav {
+        flex-direction: column;
+      }
+
+      .project-card {
+        animation: none;
+      }
     }
   </style>
 </head>
@@ -168,7 +253,7 @@
 
   <div class="container">
 
-    <section id="projects">
+    <section id="projects" class="reveal">
       <h2>Projects</h2>
       <div class="projects">
         <div class="project-card" onclick="playClick()">PROJECT-01</div>
@@ -177,12 +262,12 @@
       </div>
     </section>
 
-    <section id="about">
+    <section id="about" class="reveal">
       <h2>About</h2>
       <p>I’m Disindu Damsandu, a self-taught developer from Sri Lanka focused on cybersecurity and software development.</p>
     </section>
 
-    <section id="contact">
+    <section id="contact" class="reveal">
       <h2>Contact</h2>
       <a href="mailto:disindudamsandu@gmail.com">
         <button onclick="playClick()">Contact Me</button>
@@ -207,9 +292,41 @@
 
     document.addEventListener("click", () => {
       if (!musicStarted) {
+        music.volume = 0;
         music.play().catch(() => {});
         musicStarted = true;
+
+        let v = 0;
+        const fade = setInterval(() => {
+          if (v < 0.6) {
+            v += 0.02;
+            music.volume = v;
+          } else {
+            clearInterval(fade);
+          }
+        }, 100);
       }
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll(".reveal");
+    function revealOnScroll() {
+      const trigger = window.innerHeight * 0.85;
+      reveals.forEach(el => {
+        if (el.getBoundingClientRect().top < trigger) {
+          el.classList.add("active");
+        }
+      });
+    }
+    window.addEventListener("scroll", revealOnScroll);
+    revealOnScroll();
+
+    // Parallax (desktop only)
+    document.addEventListener("mousemove", e => {
+      if (window.innerWidth < 700) return;
+      const x = (e.clientX / window.innerWidth) * 10;
+      const y = (e.clientY / window.innerHeight) * 10;
+      document.body.style.backgroundPosition = `${x}px ${y}px`;
     });
   </script>
 
