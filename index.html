@@ -181,7 +181,11 @@ footer {
 </head>
 
 <body>
-
+   <!-- Click Sound -->
+    <audio id="clickSound">
+        <source src="./assets/Click.mp3" type="audio/mpeg">
+    </audio>
+  
 <div id="bg">
   <div class="bg-gradient"></div>
   <div class="bg-grid"></div>
@@ -194,9 +198,9 @@ footer {
 </header>
 
 <nav>
-  <a href="#projects">Projects</a>
-  <a href="#about">About</a>
-  <a href="#contact">Contact</a>
+  <a href="#projects" onclick="playClick()">Projects</a>
+  <a href="#about" onclick="playClick()">About</a>
+  <a href="#contact" onclick="playClick()">Contact</a>
 </nav>
 
 <div class="container">
@@ -204,9 +208,18 @@ footer {
 <section id="projects">
 <h2>My Projects</h2>
 <div class="projects">
-  <div class="card">PROJECT-01</div>
-  <div class="card">PROJECT-02</div>
-  <div class="card">PROJECT-03</div>
+                <div class="card" onclick="playClick()">
+                    <h3>Coming Soon!</h3>
+                    <p>PROJECT-01</p>
+                </div>
+                <div class="card" onclick="playClick()">
+                    <h3>Coming Soon!</h3>
+                    <p>PROJECT-02</p>
+                </div>
+                <div class="card" onclick="playClick()">
+                    <h3>Coming Soon!</h3>
+                    <p>PROJECT-03</p>
+                </div>
 </div>
 </section>
 
@@ -228,7 +241,12 @@ footer {
 </footer>
 
 <script>
+        const clickSound = document.getElementById("clickSound");
 
+        function playClick() {
+            clickSound.currentTime = 0;
+            clickSound.play();
+        }
 /*
 ================= MATRIX EFFECT ================= 
 const canvas = document.getElementById("matrix");
@@ -280,4 +298,5 @@ document.addEventListener("mousemove", e=>{
 
 </body>
 </html>
+
 
