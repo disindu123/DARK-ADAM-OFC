@@ -204,9 +204,9 @@ footer {
 <section id="projects">
 <h2>Projects</h2>
 <div class="projects">
- <div class="project-card" onclick="playClick()">PROJECT-01</div>
- <div class="project-card" onclick="playClick()">PROJECT-02</div>
- <div class="project-card" onclick="playClick()">PROJECT-03</div>
+  <div class="card">PROJECT-01</div>
+  <div class="card">PROJECT-02</div>
+  <div class="card">PROJECT-03</div>
 </div>
 </section>
 
@@ -228,24 +228,8 @@ footer {
 
 <script>
 
-/* ========== PARTICLES ========== */
-const p=document.getElementById("particles"),pctx=p.getContext("2d");
-let parts=[];
-function resizeP(){p.width=innerWidth;p.height=innerHeight}
-resizeP();window.addEventListener("resize",resizeP);
-for(let i=0;i<120;i++)parts.push({x:Math.random()*p.width,y:Math.random()*p.height,z:Math.random()*2+.5});
-(function draw(){
-  pctx.clearRect(0,0,p.width,p.height);
-  parts.forEach(o=>{
-    o.y+=o.z;if(o.y>p.height)o.y=0;
-    pctx.fillStyle="#00ff9c";
-    pctx.fillRect(o.x,o.y,o.z*2,o.z*2);
-  });
-  requestAnimationFrame(draw);
-})();
-
-/* 
-================= MATRIX EFFECT =================
+/*
+================= MATRIX EFFECT ================= 
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
@@ -276,8 +260,8 @@ function drawMatrix() {
   });
 }
 setInterval(drawMatrix, 50);
- */
-
+*/
+  
 /* ================= 3D PARALLAX ================= */
 document.addEventListener("mousemove", e=>{
   const x = (e.clientX / window.innerWidth - 0.5) * 20;
