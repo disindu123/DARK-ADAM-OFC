@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DARK ADAM | OFFICIAL</title>
-
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
@@ -61,37 +60,38 @@ body {
   to { background-position: 60px 60px; }
 }
 
-/* Matrix canvas */
-canvas {
-  position: absolute;
-  inset: 0;
-  opacity: 0.35;
-}
-
 /* ================= HEADER ================= */
 header {
   text-align: center;
   padding: 4rem 1rem;
 }
 
-header h1 {
+.intro-title {
   font-size: 3rem;
   color: #00ff9c;
   text-shadow: 0 0 25px #00ff9c;
+  display: inline-block;
 }
 
-header h1::after {
-  content: "_";
-  animation: blink 1s infinite;
+.intro-title span {
+  border-right: 3px solid #00ff9c;
+  animation: blink 0.7s steps(1) infinite;
 }
 
 @keyframes blink {
-  50% { opacity: 0; }
+  50% { border-color: transparent; }
 }
 
-header p {
+.intro-subtitle {
   color: #aaa;
-  margin-top: 10px;
+  margin-top: 15px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s forwards 2s;
+}
+
+@keyframes fadeInUp {
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ================= NAV ================= */
@@ -106,6 +106,7 @@ nav a {
   color: #00ff9c;
   text-decoration: none;
   position: relative;
+  transition: color 0.3s;
 }
 
 nav a::after {
@@ -121,6 +122,15 @@ nav a::after {
 
 nav a:hover::after {
   width: 100%;
+}
+
+nav a:hover {
+  color: #00ffa0;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
 }
 
 /* ================= SECTIONS ================= */
@@ -139,6 +149,14 @@ section {
   margin-bottom: 3rem;
   box-shadow: 0 0 40px rgba(0,255,160,0.15);
   transform-style: preserve-3d;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out;
+}
+
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 h2 {
@@ -158,20 +176,20 @@ h2 {
   border-radius: 12px;
   padding: 1.5rem;
   text-align: center;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.3s, box-shadow 0.3s;
   transform-style: preserve-3d;
+  cursor: pointer;
 }
 
 .card:hover {
-  box-shadow: 0 0 35px rgba(0,255,160,0.6);
+  box-shadow: 0 0 50px rgba(0,255,160,0.8);
+  transform: translateY(-5px) scale(1.02);
 }
-  
-/* Section spacing */
+
+/* ================= CONTACT BUTTON ================= */
 .contact-section {
   text-align: center;
   padding: 50px 20px;
-  background-color: #111;
-  color: #fff;
 }
 
 .contact-section h2 {
@@ -182,7 +200,6 @@ h2 {
   margin-bottom: 40px;
 }
 
-/* Button like card */
 .card-button {
   display: inline-block;
   padding: 1.5rem 2.5rem;
@@ -193,20 +210,19 @@ h2 {
   color: #00ffa0;
   font-weight: bold;
   font-size: 1.1rem;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.3s, box-shadow 0.3s;
   transform-style: preserve-3d;
 }
 
 .card-button:hover {
-  box-shadow: 0 0 35px rgba(0,255,160,0.6);
-  transform: translateY(-3px);
+  box-shadow: 0 0 50px rgba(0,255,160,0.8);
+  transform: translateY(-5px) scale(1.02);
 }
 
-/* Space between icon and text */
 .card-button span {
   margin-right: 10px;
 }
-  
+
 /* ================= FOOTER ================= */
 footer {
   text-align: center;
@@ -218,15 +234,15 @@ footer {
 @media (max-width:600px) {
   header h1 { font-size: 2rem; }
 }
+
 </style>
 </head>
 
 <body>
-   <!-- Click Sound -->
-    <audio id="clickSound">
-        <source src="./assets/Click.mp3" type="audio/mpeg">
-    </audio>
-  
+<audio id="clickSound">
+    <source src="./assets/Click.mp3" type="audio/mpeg">
+</audio>
+
 <div id="bg">
   <div class="bg-gradient"></div>
   <div class="bg-grid"></div>
@@ -234,8 +250,8 @@ footer {
 </div>
 
 <header>
-  <h1>DARK ADAM</h1>
-  <p>Self-Learning Developer | Sri Lanka | Passion for Programing</p>
+  <h1 class="intro-title"><span>DARK ADAM</span></h1>
+  <p class="intro-subtitle">Self-Learning Developer | Sri Lanka | Passion for Programming</p>
 </header>
 
 <nav>
@@ -249,18 +265,9 @@ footer {
 <section id="projects">
 <h2>My Projects</h2>
 <div class="projects">
-                <div class="card" onclick="playClick()">
-                    
-                    <p>PROJECT-01</p>
-                </div>
-                <div class="card" onclick="playClick()">
-                   
-                    <p>PROJECT-02</p>
-                </div>
-                <div class="card" onclick="playClick()">
-                   
-                    <p>PROJECT-03</p>
-                </div>
+  <div class="card" onclick="playClick()"><p>PROJECT-01</p></div>
+  <div class="card" onclick="playClick()"><p>PROJECT-02</p></div>
+  <div class="card" onclick="playClick()"><p>PROJECT-03</p></div>
 </div>
 </section>
 
@@ -271,11 +278,10 @@ footer {
 
 <section id="contact">
 <h2>Contact Me</h2>
-<p>Let’s collaborate or connect to exchange ideas!</p><br>
+<p>Let’s collaborate or connect to exchange ideas!</p>
 <a href="mailto:disindudamsandu@gmail.com" class="card-button">
-    📧 Contact via Gmail
-  </a>
-
+  <span>📧</span> Contact via Gmail
+</a>
 </section>
 
 </div>
@@ -285,14 +291,27 @@ footer {
 </footer>
 
 <script>
-        const clickSound = document.getElementById("clickSound");
+const clickSound = document.getElementById("clickSound");
+function playClick() {
+  clickSound.currentTime = 0;
+  clickSound.play();
+}
 
-        function playClick() {
-            clickSound.currentTime = 0;
-            clickSound.play();
-        }
-/*
-================= MATRIX EFFECT ================= 
+/* ================= SCROLL REVEAL ================= */
+const sections = document.querySelectorAll('section');
+function revealSections() {
+  const triggerBottom = window.innerHeight * 0.85;
+  sections.forEach(section => {
+    const sectionTop = section.getBoundingClientRect().top;
+    if(sectionTop < triggerBottom) {
+      section.classList.add('visible');
+    }
+  });
+}
+window.addEventListener('scroll', revealSections);
+window.addEventListener('load', revealSections);
+
+/* ================= MATRIX EFFECT ================= */
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
@@ -311,10 +330,8 @@ let drops = Array.from({length: columns}).fill(1);
 function drawMatrix() {
   ctx.fillStyle = "rgba(0,0,0,0.05)";
   ctx.fillRect(0,0,canvas.width,canvas.height);
-
   ctx.fillStyle = "#00ff9c";
   ctx.font = fontSize + "px monospace";
-
   drops.forEach((y,i)=>{
     const text = chars[Math.floor(Math.random()*chars.length)];
     ctx.fillText(text, i*fontSize, y*fontSize);
@@ -323,8 +340,7 @@ function drawMatrix() {
   });
 }
 setInterval(drawMatrix, 50);
-*/
-  
+
 /* ================= 3D PARALLAX ================= */
 document.addEventListener("mousemove", e=>{
   const x = (e.clientX / window.innerWidth - 0.5) * 20;
@@ -339,13 +355,5 @@ document.addEventListener("mousemove", e=>{
   });
 });
 </script>
-
 </body>
 </html>
-
-
-
-
-
-
-
